@@ -7,84 +7,7 @@
 #include <json/json.h> 	 // sudo apt-get install libjson0 libjson0-dev
 
 #include "httpclienthelper.h"
-
-struct string {
-  char *ptr;
-  size_t len;
-};
-
-void init_string(struct string *s) {
-  s->len = 0;
-  s->ptr = malloc(s->len+1);
-  if (s->ptr == NULL) {
-    fprintf(stderr, "malloc() failed\n");
-    exit(EXIT_FAILURE);
-  }
-  s->ptr[0] = '\0';
-}
-
-size_t curl_completed (void *ptr, size_t size, size_t nmemb, struct string *s)
-{
-  size_t new_len = s->len + size*nmemb;
-  s->ptr = realloc(s->ptr, new_len+1);
-  if (s->ptr == NULL) {
-    fprintf(stderr, "realloc() failed\n");
-    exit(EXIT_FAILURE);
-  }
-  memcpy(s->ptr+s->len, ptr, size*nmemb);
-  s->ptr[new_len] = '\0';
-  s->len = new_len;
-
-  return size*nmemb;
-}
-
-/*Parsing the json object*/
-void json_parse(json_object *jobj) {
-	
-	enum json_type type;
-	json_object *returnObject;
-	
-	/*Passing through every array element*/
-  	json_object_object_foreach(jobj, key, val) { 
-	
-		type = json_object_get_type(val);
-
-		switch (type) {
-        	case json_type_boolean: 
-            	printf("%s: %s\n", key, json_object_get_boolean(val)? "true": "false");
-            	break;
-        	case json_type_double: 
-            	printf("%s: %lf\n", key, json_object_get_double(val));
-            	break;
-        	case json_type_int: 
-            	printf("%s: %d\n", key, json_object_get_int(val));
-            	break;
-        	case json_type_string: 
-            	printf("%s: %s\n", key, json_object_get_string(val));
-            	break;
-			case json_type_array: 
-            	printf("%s: %s\n", key, "Array Value");
-                // json_parse_array(jobj, key);
-                break;
-        	case json_type_object:
-				if (json_object_object_get_ex(jobj, key, &returnObject)) {
-					if ( !strcmp(json_object_to_json_string(returnObject), "{ }")) {
-            			printf("%s: %s\n", key, "{ }");
-					} else {
-						json_parse(returnObject);
-					}	
-				} else {
-					printf("could not extrct json object value");
-				}
-            	break;
-        	default:
-            	printf("not matchs\n");
-            	break;
-    	}   
-	}
-}
-
-
+#include "jsonhelper.h"
 
 // README.md 
 // https://curl.haxx.se/libcurl/c/example.html
@@ -94,8 +17,6 @@ void json_parse(json_object *jobj) {
 // https://www.cprogramming.com/tutorial/shared-libraries-linux-gcc.html
 
 int main (int argc, char *argv[]) {
-
-    foo();
 	
 	CURL *curl;
 	//char url[] = "http://127.0.0.1:8081/index.json";
@@ -123,7 +44,7 @@ int main (int argc, char *argv[]) {
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curl_completed);
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &_response_body);
 	curl_easy_setopt(curl, CURLOPT_POST, url);
-    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, "username=keesh&password=keesh");
+   	curl_easy_setopt(curl, CURLOPT_POSTFIELDS, "username=keesh&password=keesh");
 
 	_res_code = curl_easy_perform(curl);
 
@@ -131,8 +52,6 @@ int main (int argc, char *argv[]) {
 		fprintf(stderr, "curl_easy_perform() failed: \n%s\n", curl_easy_strerror(_res_code));
 		exit (1);
 	} 
-
-	printf("\n");
 
 	char *_request_url;
 	int _stat_code = 0;
