@@ -16,6 +16,9 @@ jsonhelper: jsonhelper.o
 testGetAccessToken: main
 	./httpclient.o
 
+run: testGetAccessToken
+	echo "test all case"
+
 clean:
 	rm -rf httpclient.o httpclienthelper.o libhttpclienthelper.so \
 		   jsonhelper.o libjsonhelper.so
