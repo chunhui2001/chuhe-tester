@@ -11,8 +11,7 @@
 #include "../httpclienthelper.h" 	// curl_completed, struct string
 #include "../jsonhelper.h" 		 	// json_parse	
 
-void httpget(char* method, char* url, char *rtnresult) {
-
+void httpget_basic(char* method, char* url, char* rtnresult, char* userpasswd) {
 	struct string _response_body;
 	CURL *curl;
 	CURLcode _curl_result_code;
@@ -38,7 +37,7 @@ void httpget(char* method, char* url, char *rtnresult) {
 	curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
 	curl_easy_setopt(curl, CURLOPT_NOBODY, 0);
 	curl_easy_setopt(curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
-  	curl_easy_setopt(curl, CURLOPT_USERPWD, "keesh:keesh");
+  	curl_easy_setopt(curl, CURLOPT_USERPWD, userpasswd);
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curl_completed);
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &_response_body);
 
@@ -61,7 +60,7 @@ void httpget(char* method, char* url, char *rtnresult) {
 	fprintf(stdout, "%sRequest: %s[%s] %s\n", KMAG, KGRN, method, url);	
 	fprintf(stdout, "%sContent Type: %s%s\n", KMAG, KGRN, _content_type == NULL ? "text/plain" : _content_type);
 	fprintf(stdout, "%sContent Length: %s%.0f\n", KMAG, KGRN, _content_length);
-	fprintf(stdout, "%sStatus Code: %s%d\n", KMAG, KGRN, _status_code);	
+	fprintf(stdout, "%sStatus Code: %s%d\n", KMAG, KRED, _status_code);	
 	fprintf(stdout, "%sConnect Time: %s%.8f\n", KMAG, KGRN, _connect_time);
 	fprintf(stdout, "%sNamelookup Time: %s%.8f\n", KMAG, KGRN, _namelookup_time);
 
@@ -103,6 +102,11 @@ void httpget(char* method, char* url, char *rtnresult) {
 
 
 	free(_response_body.ptr);	
+}
+
+void httpget(char* method, char* url, char *rtnresult) {
+
+	httpget_basic(method, url, rtnresult, "keesh:keesh");
 
 }
 
