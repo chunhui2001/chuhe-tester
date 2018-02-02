@@ -1,19 +1,19 @@
 
 libs 		= -ljson -lcurl
-devlibs 	= -lhttpget -lhttpost -lhttpclienthelper -ljsonhelper
+devlibs 	= -lhttget -lhttpost -lhttpclienthelper -ljsonhelper
 links 		= $(devlibs) $(libs) 	# devlibs must be before libs
 dist 		= ./dist
 
 all: testproduct.o
 
-testproduct.o: httpget httpost
+testproduct.o: httget httpost
 	gcc -L$(dist) -Wl,-rpath=$(dist) -Wall \
 		-o $(dist)/testproduct.o ./test_product/product.c \
 		$(links)
 
-httpget: prepare jsonhelper httpclienthelper
-	gcc -c -Wall -Werror -fpic -o $(dist)/httpget.o ./httpclient/get/httpget.c
-	gcc -shared -o $(dist)/libhttpget.so $(dist)/httpget.o
+httget: prepare jsonhelper httpclienthelper
+	gcc -c -Wall -Werror -fpic -o $(dist)/httget.o ./httpclient/get/httget.c
+	gcc -shared -o $(dist)/libhttget.so $(dist)/httget.o
 
 httpost: prepare jsonhelper httpclienthelper
 	gcc -c -Wall -Werror -fpic -o $(dist)/httpost.o ./httpclient/post/httpost.c

@@ -11,7 +11,8 @@
 #include "../httpclienthelper.h" 	// curl_completed, struct string
 #include "../jsonhelper.h" 		 	// json_parse	
 
-void httpget_basic(char* method, char* url, char* rtnresult, char* userpasswd) {
+void httget_basic(char* method, char* url, char* rtnresult, char* userpasswd) {
+
 	struct string _response_body;
 	CURL *curl;
 	CURLcode _curl_result_code;
@@ -104,9 +105,9 @@ void httpget_basic(char* method, char* url, char* rtnresult, char* userpasswd) {
 	free(_response_body.ptr);	
 }
 
-void httpget(char* method, char* url, char *rtnresult) {
+void httget(char* method, char* url, char *rtnresult) {
 
-	httpget_basic(method, url, rtnresult, "keesh:keesh");
+        httget_basic(method, url, rtnresult, "keesh:keesh");
 
 }
 

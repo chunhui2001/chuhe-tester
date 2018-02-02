@@ -12,8 +12,6 @@
 #include "../jsonhelper.h" 		 	// json_parse	
 
 void httpost(char* method, char* url, char* rtnresult) {
-
-	printf("method: %s, url: %s\n", method, url);
 	
 	struct string _response_body;
 	CURL *curl;
@@ -43,7 +41,8 @@ void httpost(char* method, char* url, char* rtnresult) {
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curl_completed);
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &_response_body);
 	curl_easy_setopt(curl, CURLOPT_POST, url);
-        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, "product_name=product_name 1&product_unit=台&product_price=1.35&product_spec=product_spec 3&product_desc=product_desc 4");
+
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, "product_name=product_name 1&product_unit=台&product_price=1.35&product_spec=product_spec 3&product_desc=product_desc 4");
 
 	_curl_result_code = curl_easy_perform(curl);
 
