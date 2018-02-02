@@ -31,7 +31,7 @@ prepare:
 	@if ! [ -d $(dist) ]; then mkdir $(dist); fi
 
 clean:
-	rm -rf $(dist) *.o *.so 
+	rm -rf $(dist) *.o *.so
 
 
 test:

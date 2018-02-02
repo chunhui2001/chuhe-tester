@@ -11,11 +11,13 @@
 #include "../httpclienthelper.h" 	// curl_completed, struct string
 #include "../jsonhelper.h" 		 	// json_parse	
 
-void httpost(char* method, char* url, char* rtnresult) {
+void httpost(char* method, char* url, char* postdata, char* rtnresult) {
 	
+    struct curl_slist *headers = NULL;
 	struct string _response_body;
 	CURL *curl;
 	CURLcode _curl_result_code;
+
 
 	int _status_code; 				// Http 请求返回状态码
 	double _content_length;			// 返回内容长度
@@ -31,18 +33,27 @@ void httpost(char* method, char* url, char* rtnresult) {
 		exit (EXIT_FAILURE);
 	}
 
+    //headers = curl_slist_append(headers, "content-type: application/json");
+
+    //curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+    //curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "PUT");
+    curl_easy_setopt(curl, CURLOPT_POST, url);
+
 	// set: url, followlocation, nobody, httpauth, writefunction, writedata, post, postfields
-	curl_easy_setopt(curl, CURLOPT_VERBOSE, 1);			// debug 1, otherwise 0
 	curl_easy_setopt(curl, CURLOPT_URL, url);
 	curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
 	curl_easy_setopt(curl, CURLOPT_NOBODY, 0);
+    //curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 	curl_easy_setopt(curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
   	curl_easy_setopt(curl, CURLOPT_USERPWD, "keesh:keesh");
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curl_completed);
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &_response_body);
-	curl_easy_setopt(curl, CURLOPT_POST, url);
+    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postdata);
+    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1);			// debug 1, otherwise 0
 
-    curl_easy_setopt(curl, CURLOPT_POSTFIELDS, "product_name=product_name 1&product_unit=台&product_price=1.35&product_spec=product_spec 3&product_desc=product_desc 4");
+    /* if (strlen(postdata) > 0) {
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postdata);
+    } */
 
 	_curl_result_code = curl_easy_perform(curl);
 
@@ -62,20 +73,18 @@ void httpost(char* method, char* url, char* rtnresult) {
 	fprintf(stdout, "%sRequest: %s[%s] %s\n", KMAG, KGRN, method, url);	
 	fprintf(stdout, "%sContent Type: %s%s\n", KMAG, KGRN, _content_type == NULL ? "text/plain" : _content_type);
 	fprintf(stdout, "%sContent Length: %s%.0f\n", KMAG, KGRN, _content_length);
-	fprintf(stdout, "%sStatus Code: %s%d\n", KMAG, KRED, _status_code);	
+	fprintf(stdout, "%sStatus Code: %s%d\n", KMAG, KRED, _status_code);
 	fprintf(stdout, "%sConnect Time: %s%.8f\n", KMAG, KGRN, _connect_time);
 	fprintf(stdout, "%sNamelookup Time: %s%.8f\n", KMAG, KGRN, _namelookup_time);
 
-	if (_status_code < 200 || _status_code > 300) {
-		fprintf(stderr, "Request Failure: [%d]\n", _status_code);
-	} else {
+    short isSuccess = !(_status_code < 200 || _status_code > 300) ? 1 : 0;
+    fprintf(stderr, "%sHttp Result: %s%s%s\n", KMAG, KCYN, !isSuccess ? "FAILED" : "SUCCESS", KWHT);
 
-		fprintf(stdout, "Request Successful: [%d]\n", _status_code);	
-
-		if (!strcmp(_response_body.ptr, "")) {
+	if (isSuccess) {
+        if (!strcmp(_response_body.ptr, "")) {
         	fprintf(stdout, "请求成功，但是服务器未返回任何内容");
     	} else {
-			int source_size = strlen(_response_body.ptr) + 1;  
+			int source_size = strlen(_response_body.ptr) + 1;
     		memcpy(rtnresult, _response_body.ptr, source_size);
 
     		//result = _response_body.ptr;
@@ -99,9 +108,10 @@ void httpost(char* method, char* url, char* rtnresult) {
 				printf("%s\n", strpbrk("json", _content_type));
 			} */
 		}
-
 	}
 
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+    curl_easy_cleanup(curl);
 
 	free(_response_body.ptr);	
 

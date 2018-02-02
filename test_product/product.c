@@ -35,8 +35,9 @@ void productcreate(char* endpoint) {
     char requesturl[150];
 	fullurl(requesturl, endpoint);
     char response[500] = "\0";
-	httpost("post", requesturl, response);
-	printf("%sResponse Body: %s%s%s\n", KBLU, KBLU, response, KWHT);
+    char postdata[] = "product_name=6667778 1&product_unit=台&product_price=1.35&product_spec=product_spec 3&product_desc=product_desc 4";
+	httpost("post", requesturl, postdata, response);
+	printf("%sResponse Body: %s%s%s\n", KBLU, KBLU, strlen(response) > 0 ? response : "NULL", KWHT);
 
 }
 

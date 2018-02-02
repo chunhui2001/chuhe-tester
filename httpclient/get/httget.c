@@ -33,7 +33,6 @@ void httget_basic(char* method, char* url, char* rtnresult, char* userpasswd) {
 
 	// https://curl.haxx.se/libcurl/c/curl_easy_setopt.html
 	// set: url, followlocation, nobody, httpauth, writefunction, writedata, post, postfields
-	curl_easy_setopt(curl, CURLOPT_VERBOSE, 1);			// debug 1, otherwise 0
 	curl_easy_setopt(curl, CURLOPT_URL, url);
 	curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
 	curl_easy_setopt(curl, CURLOPT_NOBODY, 0);
@@ -41,6 +40,7 @@ void httget_basic(char* method, char* url, char* rtnresult, char* userpasswd) {
   	curl_easy_setopt(curl, CURLOPT_USERPWD, userpasswd);
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curl_completed);
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &_response_body);
+    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1);			// debug 1, otherwise 0
 
 	_curl_result_code = curl_easy_perform(curl);
 
@@ -65,15 +65,15 @@ void httget_basic(char* method, char* url, char* rtnresult, char* userpasswd) {
 	fprintf(stdout, "%sConnect Time: %s%.8f\n", KMAG, KGRN, _connect_time);
 	fprintf(stdout, "%sNamelookup Time: %s%.8f\n", KMAG, KGRN, _namelookup_time);
 
-	if (_status_code < 200 || _status_code > 300) {
-		fprintf(stderr, "Request Failure: [%d]\n", _status_code);
-	} else {
+    short isSuccess = !(_status_code < 200 || _status_code > 300) ? 1 : 0;
+    fprintf(stderr, "%sHttp Result: %s%s%s\n", KMAG, KCYN, !isSuccess ? "FAILED" : "SUCCESS", KWHT);
 
-		if (!strcmp(_response_body.ptr, "")) {
+	if (isSuccess) {
+        if (!strcmp(_response_body.ptr, "")) {
         	fprintf(stdout, "请求成功，但是服务器未返回任何内容");
     	} else {
 
-    		int source_size = strlen(_response_body.ptr) + 1;  
+    		int source_size = strlen(_response_body.ptr) + 1;
     		memcpy(rtnresult, _response_body.ptr, source_size);
 
     		//result = _response_body.ptr;
@@ -98,16 +98,17 @@ void httget_basic(char* method, char* url, char* rtnresult, char* userpasswd) {
 			} */
 
 		}
-
 	}
 
 
+    curl_easy_cleanup(curl);
 	free(_response_body.ptr);	
+
 }
 
 void httget(char* method, char* url, char *rtnresult) {
 
-        httget_basic(method, url, rtnresult, "keesh:keesh");
+    httget_basic(method, url, rtnresult, "keesh:keesh");
 
 }
 
