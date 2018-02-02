@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<products>
+    <product>
+        <product_num>2890354</product_num>
+        <product_title>飞利浦HP8235/00</product_title>
+        <product_name><![CDATA[索利斯（Solis）MG268i 专业负离子吹风机大功率冷热风]]></product_name>
+        <product_price>298.00</product_price>
+        <product_area>中国大陆</product_area>
+        <product_weight>1.025kg</product_weight>
+        <product_unit>台</product_unit>
+        <product_spec>专业线长2.9m</product_spec>
+        <product_desc><![[负离子防静电功能, 2000W以上]]></product_desc>
+    </product>
+    <product>
+        <product_num>5269351</product_num>
+        <product_title>明基MS3085</product_title>
+        <product_name><![CDATA[明基（BenQ）MS3085 办公 投影机 投影仪（SVGA分辨率 3300流明 HDMI*2 内置音响）]]></product_name>
+        <product_price>2499.00</product_price>
+        <product_area>中国大陆</product_area>
+        <product_weight>3.6kg</product_weight>
+        <product_unit>台</product_unit>
+        <product_spec>专业线长2.9m</product_spec>
+        <product_desc><![[经典商务, 普清(800*600), 3000-3999流明]]></product_desc>
+    </product>
+</products>
