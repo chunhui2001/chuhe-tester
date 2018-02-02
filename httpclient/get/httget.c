@@ -40,7 +40,7 @@ void httget_basic(char* method, char* url, char* rtnresult, char* userpasswd) {
   	curl_easy_setopt(curl, CURLOPT_USERPWD, userpasswd);
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curl_completed);
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &_response_body);
-    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1);			// debug 1, otherwise 0
+    curl_easy_setopt(curl, CURLOPT_VERBOSE, 0);			// debug 1, otherwise 0
 
 	_curl_result_code = curl_easy_perform(curl);
 

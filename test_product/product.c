@@ -20,9 +20,8 @@ void productlist(char* endpoint) {
 
     char requesturl[150];
     fullurl(requesturl, endpoint);
-    char response[20000] = "\0";
-    httget("get", requesturl, response);
-	printf("%sResponse Body: %s%s%s\n", KBLU, KBLU, response, KWHT);
+    char response[1000] = "\0";
+	printf("%sResponse Body: %s%s%s\n\n", KBLU, KBLU, response, KWHT);
 
 }
 
@@ -32,39 +31,70 @@ void productcreate(char* endpoint) {
     // http --verbose --verify no POST http://127.0.0.1:8081/mans/products.json 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImtlZXNoIiwiY2FuQ3JlYXRlIjpmYWxzZSwiY2FuVXBkYXRlIjpmYWxzZSwiY2FuRGVsZXRlIjpmYWxzZSwiaWF0IjoxNTE3Mjk3NTA3LCJpc3MiOiJWZXJ0LngiLCJzdWIiOiJXaWtpIEFQSSJ9.of9oMouGKDsotS0YyZYzl6xv_e7ZFT7MpxD1TFBdnUA'
     // curl -v -u keesh:keesh -X POST -H "Content-Type:application/x-www-form-urlencoded" -d '{"product_name": "product_name", "product_unit": "product_unit", "product_price": 1.35, "product_spec": "product_spec", "product_desc":"product_desc -4"}' http://localhost:8081/mans/products.json
 
+    char method[] = "post";
     char requesturl[150];
 	fullurl(requesturl, endpoint);
-    char response[500] = "\0";
+    char response[150] = "\0";
     char postdata[] = "product_name=6667778 1&product_unit=台&product_price=1.35&product_spec=product_spec 3&product_desc=product_desc 4";
-	httpost("post", requesturl, postdata, response);
-	printf("%sResponse Body: %s%s%s\n", KBLU, KBLU, strlen(response) > 0 ? response : "NULL", KWHT);
+	httpost(method, requesturl, postdata, response);
+	printf("%sResponse Body: %s%s%s\n\n", KBLU, KBLU, strlen(response) > 0 ? response : "NULL", KWHT);
 
 }
 
-//void productdel(char* endpoint) {
+void productdel(char* endpoint, char* productid) {
 
-// curl -v -u keesh:keesh -X DELETE http://localhost:8081/mans/products/25.json
-//    char requesturl[150];
-//    fullurl(requesturl, endpoint);
-//    char response[20000] = "\0";
-//    httpost("delete", requesturl, response);
-//    printf("%sResponse Body: %s%s%s\n", KBLU, KBLU, response, KWHT);
+    // curl -v -u keesh:keesh -X DELETE http://localhost:8081/mans/products/25.json
 
-//}
+    char method[] = "delete";
+    char requesturl[150];
+    char realendpoint[150];
+    sprintf(realendpoint, endpoint, productid);
+
+    fullurl(requesturl, realendpoint);
+    char response[150] = "\0";
+    httpost(method, requesturl, NULL, response);
+    printf("%sResponse Body: %s%s%s\n\n", KBLU, KBLU, response, KWHT);
+
+}
+
+
+void productupdate(char* endpoint, char* productid) {
+
+    // curl -v -u keesh:keesh -X PUT http://localhost:8081/mans/products/115.json
+    char method[] = "put";
+    char requesturl[150];
+    char realendpoint[150];
+    sprintf(realendpoint, endpoint, productid);
+
+    fullurl(requesturl, realendpoint);
+    char response[150] = "\0";
+    char postdata[] = "product_name=6667778Updated 1&product_unit=台&product_price=666.35&product_spec=特色产品&product_desc=product_desc";
+	httpost(method, requesturl, postdata, response);
+	printf("%sResponse Body: %s%s%s\n\n", KBLU, KBLU, strlen(response) > 0 ? response : "NULL", KWHT);
+
+}
 
 int main(int argc, char* argv[]) {
-      
-	char endpoint_productlist[] = "/mans/products.json";
-	char endpoint_productcreate[] = "/mans/products.json";
-    //char endpoint_productdelete[] = "/mans/products/{{product_id}}.json";
 
-	productlist(endpoint_productlist);
-	productcreate(endpoint_productcreate);
-    //productdel(endpoint_productdelete);
+    /* 获取所有产品列表 */
+	productlist("/mans/products.json");
 
-	
-	//httpost(method, url);
+    /* 创建一个产品 */
+	productcreate("/mans/products.json");
+
+    /* 根据产品编号删除 */
+    productdel("/mans/products/%s.json", "100");
+
+//    for (int i=0; i<150; i++) {
+//        char index[30];
+//        sprintf(index, "%d", i);
+//        productdel("/mans/products/%s.json", index);
+//    }
+
+    /* 更新产品内容 */
+    productupdate("/mans/products/%s.json", "115");
 
 
-	return 0;	
+	return EXIT_SUCCESS;
+
 }

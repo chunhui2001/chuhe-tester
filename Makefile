@@ -1,6 +1,6 @@
 
 libs 		= -ljson -lcurl
-devlibs 	= -lhttget -lhttpost -lhttpclienthelper -ljsonhelper
+devlibs 	= -lhttget -lhttpost -lnubecula -lhttpclienthelper -ljsonhelper
 links 		= $(devlibs) $(libs) 	# devlibs must be before libs
 dist 		= ./dist
 
@@ -11,11 +11,11 @@ testproduct.o: httget httpost
 		-o $(dist)/testproduct.o ./test_product/product.c \
 		$(links)
 
-httget: prepare jsonhelper httpclienthelper
+httget: prepare nubecula jsonhelper httpclienthelper
 	gcc -c -Wall -Werror -fpic -o $(dist)/httget.o ./httpclient/get/httget.c
 	gcc -shared -o $(dist)/libhttget.so $(dist)/httget.o
 
-httpost: prepare jsonhelper httpclienthelper
+httpost: prepare nubecula jsonhelper httpclienthelper
 	gcc -c -Wall -Werror -fpic -o $(dist)/httpost.o ./httpclient/post/httpost.c
 	gcc -shared -o $(dist)/libhttpost.so $(dist)/httpost.o
 
@@ -26,6 +26,10 @@ httpclienthelper: prepare
 jsonhelper: prepare
 	gcc -c -Wall -Werror -fpic -o $(dist)/jsonhelper.o ./httpclient/jsonhelper.c
 	gcc -shared -o $(dist)/libjsonhelper.so $(dist)/jsonhelper.o
+
+nubecula: prepare
+	gcc -c -Wall -Werror -fpic -o $(dist)/nubecula.o ./nubecula/string/stringutil.c
+	gcc -shared -o $(dist)/libnubecula.so $(dist)/nubecula.o
 	
 prepare:
 	@if ! [ -d $(dist) ]; then mkdir $(dist); fi

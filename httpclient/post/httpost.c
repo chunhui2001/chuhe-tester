@@ -7,12 +7,16 @@
 #include <json/json.h> 	 			// sudo apt-get install libjson0 libjson0-dev
 
 #include "../../utils/colors.h"
+#include "../../nubecula/string/stringutil.h"
 
 #include "../httpclienthelper.h" 	// curl_completed, struct string
 #include "../jsonhelper.h" 		 	// json_parse	
 
 void httpost(char* method, char* url, char* postdata, char* rtnresult) {
 	
+    string_toupper(method);
+
+
     struct curl_slist *headers = NULL;
 	struct string _response_body;
 	CURL *curl;
@@ -35,9 +39,17 @@ void httpost(char* method, char* url, char* postdata, char* rtnresult) {
 
     //headers = curl_slist_append(headers, "content-type: application/json");
 
-    //curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "DELETE");
-    //curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, "PUT");
-    curl_easy_setopt(curl, CURLOPT_POST, url);
+    if (!strcmp(method, "POST")) {
+        curl_easy_setopt(curl, CURLOPT_POST, url);
+    }
+
+    if (!strcmp(method, "DELETE")) {
+        curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, method);
+    }
+
+    if (!strcmp(method, "PUT")) {
+        curl_easy_setopt(curl, CURLOPT_CUSTOMREQUEST, method);
+    }
 
 	// set: url, followlocation, nobody, httpauth, writefunction, writedata, post, postfields
 	curl_easy_setopt(curl, CURLOPT_URL, url);
@@ -49,7 +61,7 @@ void httpost(char* method, char* url, char* postdata, char* rtnresult) {
 	curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, curl_completed);
 	curl_easy_setopt(curl, CURLOPT_WRITEDATA, &_response_body);
     curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postdata);
-    curl_easy_setopt(curl, CURLOPT_VERBOSE, 1);			// debug 1, otherwise 0
+    curl_easy_setopt(curl, CURLOPT_VERBOSE, 0);			// debug 1, otherwise 0
 
     /* if (strlen(postdata) > 0) {
         curl_easy_setopt(curl, CURLOPT_POSTFIELDS, postdata);
@@ -82,7 +94,7 @@ void httpost(char* method, char* url, char* postdata, char* rtnresult) {
 
 	if (isSuccess) {
         if (!strcmp(_response_body.ptr, "")) {
-        	fprintf(stdout, "请求成功，但是服务器未返回任何内容");
+        	fprintf(stdout, "请求成功，但是服务器未返回任何内容\n");
     	} else {
 			int source_size = strlen(_response_body.ptr) + 1;
     		memcpy(rtnresult, _response_body.ptr, source_size);

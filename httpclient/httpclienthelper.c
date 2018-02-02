@@ -1,20 +1,11 @@
 #include <stdio.h>			// printf
 #include <stdlib.h> 		// EXIT_FAILURE, exit, realloc
 #include <string.h> 		// memcpy
+
 #include "httpclienthelper.h"
 
 void foo(void) {
 	printf("foo");
-}
-
-void init_string (struct string *s) {
-  s->len = 0;
-  s->ptr = malloc(s->len+1);
-  if (s->ptr == NULL) {
-    fprintf(stderr, "malloc() failed\n");
-    exit(EXIT_FAILURE);
-  }
-  s->ptr[0] = '\0';
 }
 
 
