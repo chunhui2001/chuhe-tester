@@ -3,7 +3,7 @@ CONFIG += console
 CONFIG -= app_bundle
 CONFIG -= qt
 
-SOURCES += main.c \
+SOURCES += \
     httpclient/get/httget.c \
     httpclient/httpclient.c \
     httpclient/httpclienthelper.c \
@@ -12,7 +12,8 @@ SOURCES += main.c \
     utils/prog.c \
     webclient/webclient_c.c \
     webserver/webserver_c.c \
-    httpclient/post/httpost.c
+    httpclient/post/httpost.c \
+    main.c
 
 DISTFILES += \
     dist/libhttget.so \
