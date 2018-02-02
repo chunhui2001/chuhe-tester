@@ -5,14 +5,14 @@ CONFIG -= qt
 
 SOURCES += main.c \
     httpclient/get/httget.c \
-    httpclient/post/httpost.c \
     httpclient/httpclient.c \
     httpclient/httpclienthelper.c \
     httpclient/jsonhelper.c \
     test_product/product.c \
     utils/prog.c \
     webclient/webclient_c.c \
-    webserver/webserver_c.c
+    webserver/webserver_c.c \
+    httpclient/post/httpost.c
 
 DISTFILES += \
     dist/libhttget.so \
