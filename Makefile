@@ -1,5 +1,5 @@
 
-libs 		= -ljson -lcurl
+libs 		= -ljson -lcurl -lxml2
 devlibs 	= -lhttget -lhttpost -lnubecula -lhttpclienthelper -ljsonhelper
 links 		= $(devlibs) $(libs) 	# devlibs must be before libs
 dist 		= ./dist
@@ -28,8 +28,13 @@ jsonhelper: prepare
 	gcc -shared -o $(dist)/libjsonhelper.so $(dist)/jsonhelper.o
 
 nubecula: prepare
-	gcc -c -Wall -Werror -fpic -o $(dist)/nubecula.o ./nubecula/string/stringutil.c
-	gcc -shared -o $(dist)/libnubecula.so $(dist)/nubecula.o
+	gcc -c -Wall -Werror -fpic -o $(dist)/stringutil.o ./nubecula/string/stringutil.c
+	gcc -c -Wall -Werror -fpic -I/usr/include/libxml2 -o $(dist)/xmlutil.o ./nubecula/xml/xmlutil.c
+	gcc -shared -o $(dist)/libnubecula.so $(dist)/stringutil.o $(dist)/xmlutil.o
+
+xmlutil: prepare
+	gcc -o $(dist)/xmlutil.o ./nubecula/xml/xmlutil.c -I/usr/include/libxml2  -lxml2 -ljson
+
 	
 prepare:
 	@if ! [ -d $(dist) ]; then mkdir $(dist); fi

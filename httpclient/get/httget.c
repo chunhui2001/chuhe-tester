@@ -74,7 +74,21 @@ void httget_basic(char* method, char* url, char* rtnresult, char* userpasswd) {
     	} else {
 
     		int source_size = strlen(_response_body.ptr) + 1;
-    		memcpy(rtnresult, _response_body.ptr, source_size);
+
+            // rtnresult = realloc(rtnresult, sizeof(char *) * source_size);
+
+            if (rtnresult) {
+                memcpy(rtnresult, _response_body.ptr, source_size);
+                printf("realloc success: %lu\n", sizeof(char *) * source_size);
+            } else {
+                printf("realloc failure\n");
+            }
+
+
+            /* printf("rtnresult: %lu\n", sizeof(rtnresult));
+            printf("rtnresult length: %lu\n", strlen(rtnresult));
+            printf("rtnresult content: %s\n", rtnresult);
+            printf("rtnresult length: %p\n", &rtnresult[0]); */
 
     		//result = _response_body.ptr;
 

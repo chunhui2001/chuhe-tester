@@ -3,13 +3,13 @@
     <product>
         <product_num>2890354</product_num>
         <product_title>飞利浦HP8235/00</product_title>
-        <product_name><![CDATA[索利斯（Solis）MG268i 专业负离子吹风机大功率冷热风]]></product_name>
+        <product_name><![CDATA[索利斯（Solis）& MG268i 专业负离子吹风机大功率冷热风]]></product_name>
         <product_price>298.00</product_price>
         <product_area>中国大陆</product_area>
         <product_weight>1.025kg</product_weight>
         <product_unit>台</product_unit>
         <product_spec>专业线长2.9m</product_spec>
-        <product_desc><![[负离子防静电功能, 2000W以上]]></product_desc>
+        <product_desc><![CDATA[负离子防静电功能, 2000W以上]]></product_desc>
     </product>
     <product>
         <product_num>5269351</product_num>
@@ -20,6 +20,17 @@
         <product_weight>3.6kg</product_weight>
         <product_unit>台</product_unit>
         <product_spec>专业线长2.9m</product_spec>
-        <product_desc><![[经典商务, 普清(800*600), 3000-3999流明]]></product_desc>
+        <product_desc><![CDATA[经典商务, 普清(800*600), 3000-3999流明]]></product_desc>
+    </product>
+    <product>
+        <product_num>13678937491</product_num>
+        <product_title>花花公子长袖T恤男翻领中年2017秋季新款纯色针织T恤 6818藏青色 170适合120-140斤</product_title>
+        <product_name><![CDATA[花花公子长袖T恤男翻领中年2017秋季新款纯色针织T恤 6818藏青色 170适合120-140斤]]></product_name>
+        <product_price>148.00</product_price>
+        <product_area>中国大陆</product_area>
+        <product_weight>400.00g</product_weight>
+        <product_unit>件</product_unit>
+        <product_spec>专业线长2.9m</product_spec>
+        <product_desc><![CDATA[经典商务, 普清(800*600), 3000-3999流明]]></product_desc>
     </product>
 </products>

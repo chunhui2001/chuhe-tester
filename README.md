@@ -1,7 +1,7 @@
 # chuhe-tester
 
 
-## Install Ulfius
+## Install Ulfius, c web server
 #$ sudo apt install libulfius-dev
 $ sudo apt-get install libmicrohttpd-dev libjansson-dev libcurl4-gnutls-dev libgnutls28-dev libgcrypt20-dev
 
@@ -25,3 +25,12 @@ $ cd build/
 $ cmake ../
 $ make install
 $ sudo make install
+
+
+#### dependencies:
+
+## json
+$ sudo apt-get install libjson0 libjson0-dev
+
+## xml
+$ sudo apt-get install libxml2-dev libxslt-dev
