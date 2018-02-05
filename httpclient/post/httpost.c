@@ -83,7 +83,8 @@ void httpost(char* method, char* url, char* postdata, char* rtnresult) {
 
 	
 	fprintf(stdout, "%sRequest: %s[%s] %s\n", KMAG, KGRN, method, url);	
-	fprintf(stdout, "%sContent Type: %s%s\n", KMAG, KGRN, _content_type == NULL ? "text/plain" : _content_type);
+    fprintf(stdout, "%sRequest Data: %s %s\n", KMAG, KGRN, postdata);
+	fprintf(stdout, "%sAccept Type: %s%s\n", KMAG, KGRN, _content_type == NULL ? "text/plain" : _content_type);
 	fprintf(stdout, "%sContent Length: %s%.0f\n", KMAG, KGRN, _content_length);
 	fprintf(stdout, "%sStatus Code: %s%d\n", KMAG, KRED, _status_code);
 	fprintf(stdout, "%sConnect Time: %s%.8f\n", KMAG, KGRN, _connect_time);

@@ -79,7 +79,7 @@ void httget_basic(char* method, char* url, char* rtnresult, char* userpasswd) {
 
             if (rtnresult) {
                 memcpy(rtnresult, _response_body.ptr, source_size);
-                printf("realloc success: %lu\n", sizeof(char *) * source_size);
+                //printf("realloc success: %lu\n", sizeof(char *) * source_size);
             } else {
                 printf("realloc failure\n");
             }

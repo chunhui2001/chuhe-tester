@@ -24,7 +24,8 @@ void productlist(char* endpoint) {
     fullurl(requesturl, endpoint);
     char *response = (char *) malloc(sizeof(char *) * 5000);
     httget("get", requesturl, response);
-	printf("%sResponse Body: %s%s%s\n", KBLU, KBLU, response, KWHT);
+	//printf("%sResponse Body: %s%s%s\n", KBLU, KBLU, response, KWHT);
+    free(response);
 
 }
 
@@ -32,28 +33,49 @@ void productlist(char* endpoint) {
 void productcreate(char* endpoint) {
 
 
-    const char docname[] = "/test_product/products.xml";
-
-    json_object *jsonResultList = json_object_new_array();
-
-    parseXmlDocToJson(docname, "product", jsonResultList);
-
-    printf (" %s\n",json_object_to_json_string(jsonResultList));
-
-    free(jsonResultList);
-
-
-
-    // http --verbose --verify no POST http://127.0.0.1:8081/mans/products.json 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImtlZXNoIiwiY2FuQ3JlYXRlIjpmYWxzZSwiY2FuVXBkYXRlIjpmYWxzZSwiY2FuRGVsZXRlIjpmYWxzZSwiaWF0IjoxNTE3Mjk3NTA3LCJpc3MiOiJWZXJ0LngiLCJzdWIiOiJXaWtpIEFQSSJ9.of9oMouGKDsotS0YyZYzl6xv_e7ZFT7MpxD1TFBdnUA'
-    // curl -v -u keesh:keesh -X POST -H "Content-Type:application/x-www-form-urlencoded" -d '{"product_name": "product_name", "product_unit": "product_unit", "product_price": 1.35, "product_spec": "product_spec", "product_desc":"product_desc -4"}' http://localhost:8081/mans/products.json
-
     char method[] = "post";
     char requesturl[150];
 	fullurl(requesturl, endpoint);
     char response[150] = "\0";
-    char postdata[] = "product_name=6667778 1&product_unit=台&product_price=1.35&product_spec=product_spec 3&product_desc=product_desc 4";
-	httpost(method, requesturl, postdata, response);
-	printf("%sResponse Body: %s%s%s\n\n", KBLU, KBLU, strlen(response) > 0 ? response : "NULL", KWHT);
+
+
+    const char docname[] = "/test_product/products.xml";
+
+    json_object *jsonResultList = json_object_new_array();
+    parseXmlDocToJson(docname, "product", jsonResultList);
+    int arraylen = json_object_array_length(jsonResultList);
+
+
+    json_object * jsonProduct;
+
+    for (int i=0; i< arraylen; i++){
+
+        char buf[5000];
+        buf[0] = '\0';
+
+        jsonProduct = json_object_array_get_idx(jsonResultList, i);
+
+
+
+        json_object_object_foreach(jsonProduct, key, val) {
+
+            sprintf(buf, "%s%s%s=%s", buf, strlen(buf) == 0 ? "" : "&", key,  json_object_get_string(val));
+
+        }
+
+        httpost(method, requesturl, buf, response);
+        printf("%sResponse Body: %s%s%s\n\n", KBLU, KBLU, strlen(response) > 0 ? response : "NULL", KWHT);
+
+        free(jsonProduct);
+
+    }
+
+
+    free(jsonResultList);
+
+    // http --verbose --verify no POST http://127.0.0.1:8081/mans/products.json 'Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImtlZXNoIiwiY2FuQ3JlYXRlIjpmYWxzZSwiY2FuVXBkYXRlIjpmYWxzZSwiY2FuRGVsZXRlIjpmYWxzZSwiaWF0IjoxNTE3Mjk3NTA3LCJpc3MiOiJWZXJ0LngiLCJzdWIiOiJXaWtpIEFQSSJ9.of9oMouGKDsotS0YyZYzl6xv_e7ZFT7MpxD1TFBdnUA'
+    // curl -v -u keesh:keesh -X POST -H "Content-Type:application/x-www-form-urlencoded" -d '{"product_name": "product_name", "product_unit": "product_unit", "product_price": 1.35, "product_spec": "product_spec", "product_desc":"product_desc -4"}' http://localhost:8081/mans/products.json
+
 
 }
 
