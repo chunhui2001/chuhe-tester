@@ -42,4 +42,72 @@
         <product_weight>2.74kg</product_weight>
         <product_unit>双</product_unit>
     </product>
+    <product>
+        <product_num>16382296441</product_num>
+        <product_title>席韵家纺 沙发垫套装</product_title>
+        <product_name><![CDATA[席韵家纺 沙发垫套装 欧式冬季全包加厚毛绒飘窗垫窗台垫 简约布艺 新款升级陌上双花款：宝蓝 70*70cm单片（可做扶手巾靠背巾）]]></product_name>
+        <product_price>45.00</product_price>
+        <product_area>中国大陆</product_area>
+        <product_weight>1.25kg</product_weight>
+        <product_unit>套</product_unit>
+        <product_spec>70*70cm</product_spec>
+        <product_brand>席韵家纺</product_brand>
+        <product_desc><![CDATA[风格：简约时尚，欧式经典，田园乡村]]></product_desc>
+    </product>
+    <product>
+        <product_num>11355276811</product_num>
+        <product_title>途讯05 车载K歌宝</product_title>
+        <product_name><![CDATA[途讯05 车载K歌宝汽车KTV手机电脑FM无线蓝牙麦克风全民K歌唱吧主播直播话筒 高冷黑]]></product_name>
+        <product_price>398.00</product_price>
+        <product_area>中国大陆</product_area>
+        <product_weight>144.00g</product_weight>
+        <product_unit>个</product_unit>
+        <product_spec>144.00g</product_spec>
+        <product_brand>途讯</product_brand>
+        <product_desc><![CDATA[高冷黑]]></product_desc>
+    </product>
+    <product>
+        <product_num>10169062073</product_num>
+        <product_title>夏普（SHARP）</product_title>
+        <product_name><![CDATA[夏普（SHARP） 空气净化器家用除甲醛雾霾PM2.5净化机 KC-CD20-W加湿型(建议面积18-32㎡)]]></product_name>
+        <product_price>1749.00</product_price>
+        <product_area>中国大陆</product_area>
+        <product_weight>11.0kg</product_weight>
+        <product_unit>台</product_unit>
+        <product_brand>夏普</product_brand>
+        <product_desc><![CDATA[除PM2.5，除甲醛，除异味，杀菌，加湿净化]]></product_desc>
+    </product>
+    <product>
+        <product_num>10984336263</product_num>
+        <product_title>ROSSIGNOL滑雪板</product_title>
+        <product_name><![CDATA[ROSSIGNOL 法国金鸡雪上飞入门初中级男女通用滑雪板双板套装 黑白色 142cm]]></product_name>
+        <product_price>2980.00</product_price>
+        <product_area>法国</product_area>
+        <product_weight>5.0kg</product_weight>
+        <product_unit>组</product_unit>
+        <product_brand>ROSSIGNOL</product_brand>
+        <product_desc><![CDATA[法国金鸡雪上飞入门初中级男女通用滑雪板双板套装]]></product_desc>
+    </product>
+    <product>
+        <product_num>10984336263</product_num>
+        <product_title>优维斯（UVEX） 滑雪头盔</product_title>
+        <product_name><![CDATA[优维斯（UVEX） 滑雪头盔男女款盔镜一体滑hlmt 300 visor 单双板滑雪盔 S5661624007 亚光蓝 60-61cm]]></product_name>
+        <product_price>2454.80</product_price>
+        <product_area>德国</product_area>
+        <product_weight>400.00g</product_weight>
+        <product_unit>个</product_unit>
+        <product_brand>优维斯（UVEX）</product_brand>
+        <product_desc><![CDATA[滑雪头盔男女款盔镜一体滑hlmt 300 visor 单双板滑雪盔 S5661624007 亚光蓝]]></product_desc>
+    </product>
+    <product>
+        <product_num>10984336263</product_num>
+        <product_title>ROSSIGNOL 滑雪鞋</product_title>
+        <product_name><![CDATA[ROSSIGNOL 法国金鸡男士全能双板滑雪鞋ALLTRACK 90 26.5]]></product_name>
+        <product_price>3075.00</product_price>
+        <product_area>法国</product_area>
+        <product_weight>3.0kg</product_weight>
+        <product_unit>双</product_unit>
+        <product_brand>ROSSIGNOL</product_brand>
+        <product_desc><![CDATA[法国金鸡男士全能双板滑雪鞋ALLTRACK 90 26.5]]></product_desc>
+    </product>
 </products>

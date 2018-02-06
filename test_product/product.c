@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <termios.h>
+#include <unistd.h>
 
 #include "../httpclient/post/httpost.h"
 #include "../httpclient/get/httget.h"
@@ -24,7 +26,7 @@ void productlist(char* endpoint) {
     fullurl(requesturl, endpoint);
     char *response = (char *) malloc(sizeof(char *) * 5000);
     httget("get", requesturl, response);
-	//printf("%sResponse Body: %s%s%s\n", KBLU, KBLU, response, KWHT);
+	printf("%sResponse Body: %s%s%s\n", KBLU, KBLU, response, KWHT);
     free(response);
 
 }
@@ -81,6 +83,9 @@ void productcreate(char* endpoint) {
 
 void productdel(char* endpoint, char* productid) {
 
+    if (productid[strlen(productid) - 1] == '\n')
+        productid[strlen(productid) - 1] = '\0';
+
     // curl -v -u keesh:keesh -X DELETE http://localhost:8081/mans/products/25.json
 
     char method[] = "delete";
@@ -98,6 +103,9 @@ void productdel(char* endpoint, char* productid) {
 
 void productupdate(char* endpoint, char* productid) {
 
+    if (productid[strlen(productid) - 1] == '\n')
+        productid[strlen(productid) - 1] = '\0';
+
     // curl -v -u keesh:keesh -X PUT http://localhost:8081/mans/products/115.json
     char method[] = "put";
     char requesturl[150];
@@ -105,26 +113,69 @@ void productupdate(char* endpoint, char* productid) {
     sprintf(realendpoint, endpoint, productid);
 
     fullurl(requesturl, realendpoint);
+
+    printf("requesturl: %s\n", requesturl);
+
     char response[150] = "\0";
-    char postdata[] = "product_name=6667778Updated 1&product_unit=台&product_price=666.35&product_spec=特色产品&product_desc=product_desc";
+    char postdata[] = "product_name=ROSSIGNOL 法国金鸡男士全能双板滑雪鞋ALLTRACK 90 26.5";
 	httpost(method, requesturl, postdata, response);
 	printf("%sResponse Body: %s%s%s\n\n", KBLU, KBLU, strlen(response) > 0 ? response : "NULL", KWHT);
 
 }
 
+int confirm_line ( void ) {
+
+  int ch;
+  struct termios oldt, newt;
+
+  tcgetattr ( STDIN_FILENO, &oldt );
+  newt = oldt;
+  newt.c_lflag &= ~( ICANON | ECHO );
+  tcsetattr ( STDIN_FILENO, TCSANOW, &newt );
+  ch = getchar();
+  tcsetattr ( STDIN_FILENO, TCSANOW, &oldt );
+
+  return ch;
+}
+
 int main(int argc, char* argv[]) {
 
+    char input[100];
+    int pid;
+
     /* 获取所有产品列表 */
+    puts("[TESTING] 获取所有产品列表");
+    confirm_line();
 	productlist("/mans/products.json");
 
-    /* 创建一个产品 */
+    /* 创建一堆产品 */
+    puts("[TESTING] 创建一堆产品");
+    confirm_line();
 	productcreate("/mans/products.json");
 
-    /* 根据产品编号删除 */
-    //productdel("/mans/products/%s.json", "100");
+    /* 根据产品 ID 更新产品内容 */
+    puts("[TESTING] 根据产品 ID 更新产品内容, 请输入产品 ID: (只限整数)");
 
-    /* 更新产品内容 */
-    //productupdate("/mans/products/%s.json", "115");
+    fgets(input, sizeof(input), stdin);
+
+    if (sscanf(input, "%d", &pid) != 1) {
+        printf("输入有误, 程序已推出!\n");
+        return EXIT_FAILURE;
+    }
+
+    productupdate("/mans/products/%s.json", input);
+
+    /* 根据产品 ID 删除一个产品 */
+    puts("[TESTING] 根据产品 ID 删除一个产品, 请输入产品 ID: (只限整数)");
+
+    fgets(input, sizeof(input), stdin);
+
+    if (sscanf(input, "%d", &pid) != 1) {
+        printf("输入有误, 程序已推出!\n");
+        return EXIT_FAILURE;
+    }
+
+    productdel("/mans/products/%s.json", input);
 
 
 	return EXIT_SUCCESS;
